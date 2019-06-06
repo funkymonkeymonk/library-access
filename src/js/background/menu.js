@@ -1,9 +1,4 @@
-const genericOnClick = (info) => {
-  const dok = 'https://www.decksofkeyforge.com/'
-  const path = 'decks/'
-  const id = info.pageUrl.split('/').filter(function(el){ return !!el; }).pop()
-  chrome.tabs.create({ url: dok + path + id })
-}
+import dok from "../libs/dok"
 
 export const createMenu = () => {
   const parent = chrome.contextMenus.create({
@@ -11,10 +6,50 @@ export const createMenu = () => {
     "documentUrlPatterns": ["*://www.keyforgegame.com/*"]
   })
 
-  const gotodok = chrome.contextMenus.create({
+  const dok = chrome.contextMenus.create({
     "parentId": parent,
-    "title": "Open in Decks Of Keyforge",
+    "title": "Decks Of Keyforge",
+    "documentUrlPatterns": ["*://www.keyforgegame.com/*"]
+  })
+
+  const goDoK = chrome.contextMenus.create({
+    "parentId": dok,
+    "title": "Open",
     "documentUrlPatterns": ["*://www.keyforgegame.com/deck-details/*"],
-    "onclick": genericOnClick
+    "onclick": dok.open
+  })
+
+  const mineDoK = chrome.contextMenus.create({
+    "parentId": dok,
+    "title": "Mark as yours",
+    "documentUrlPatterns": ["*://www.keyforgegame.com/deck-details/*"],
+    "onclick": dok.mine
+  })
+
+  const notMineDoK = chrome.contextMenus.create({
+    "parentId": dok,
+    "title": "Mark as not yours",
+    "documentUrlPatterns": ["*://www.keyforgegame.com/deck-details/*"],
+    "onclick": dok.notMine
+  })
+
+  const crucible = chrome.contextMenus.create({
+    "parentId": parent,
+    "title": "The Crucible",
+    "documentUrlPatterns": ["*://www.keyforgegame.com/*"]
+  })
+
+  const addCrucible = chrome.contextMenus.create({
+    "parentId": crucible,
+    "title": "Add",
+    "documentUrlPatterns": ["*://www.keyforgegame.com/deck-details/*"],
+    "onclick": dok.open
+  })
+
+  const removeCrucible = chrome.contextMenus.create({
+    "parentId": crucible,
+    "title": "Remove",
+    "documentUrlPatterns": ["*://www.keyforgegame.com/deck-details/*"],
+    "onclick": dok.open
   })
 }
