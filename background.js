@@ -9,6 +9,11 @@ chrome.runtime.onInstalled.addListener(() => chrome.declarativeContent.onPageCha
       pageUrl: {
         hostEquals: 'decksofkeyforge.com'
       }
+    }),
+    new chrome.declarativeContent.PageStateMatcher({
+      pageUrl: {
+        hostEquals: 'www.thecrucible.online'
+      }
     })
   ],
   actions: [new chrome.declarativeContent.ShowPageAction()]

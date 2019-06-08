@@ -4,7 +4,12 @@ Library Access is a chrome extension for syncing your KeyForge Master Vault deck
 
 ## How To Use
 
-Once installed, simply login to your Asmodee account and navigate to the KeyForge Master Vault site. Click the extension button and press "Access Master Vault". The popup will update with how many decks were found. Now navigate to Decks of KeyForge site and click the extension button, press "Sync Decks of KeyForge". You should get an alert saying the sync is complete.
+Once installed, simply login to your Asmodee account and navigate to the KeyForge Master Vault site. Click the extension button and press "Access Master Vault". The popup will update with how many decks were found. Now navigate to a supported site and click the extension button, press "Sync [Site]". The extension will update when the sync is complete.
+
+## Supported Sites
+
+- Decks of KeyForge
+- The Crucible Online
 
 ## How To Install
 

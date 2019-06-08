@@ -5,6 +5,9 @@ let libraryText = document.getElementById('library-status')
 let dokSection = document.getElementById('dok-section')
 let syncDokBtn = document.getElementById('sync-dok')
 let dokText = document.getElementById('dok-status')
+let crucibleSection = document.getElementById('crucible-section')
+let syncCrucibleBtn = document.getElementById('sync-crucible')
+let crucibleText = document.getElementById('crucible-status')
 let spinner = document.getElementById('spinner')
 
 const handleMasterVaultToken = (cookie) => {
@@ -51,10 +54,33 @@ const handleDokToken = (token) => loadLibrary().then((library) => {
     return
   } else {
     library.forEach(deckId => {
-      importDeck(token, deckId)
+      importDeckDok(token, deckId)
     })
 
     dokText.innerHTML = "Synced " + library.length + " decks"
+    spinner.classList.add('display-none')
+  }
+})
+
+const handleCrucibleToken = (token) => loadLibrary().then((library) => {
+  if (!token) {
+    alert('You must login to The Crucible Online first')
+    spinner.classList.add('display-none')
+    return
+  }
+
+  if (!library || library.length == 0) {
+    alert(
+      'No decks accessed from Master Vault. Click "Access Master Vault" first.'
+    )
+    spinner.classList.add('display-none')
+    return
+  } else {
+    library.forEach(deckId => {
+      importDeckCrucible(token, deckId)
+    })
+
+    crucibleText.innerHTML = "Synced " + library.length + " decks"
     spinner.classList.add('display-none')
   }
 })
@@ -109,7 +135,7 @@ const getLibrary = (token, user, page, onlyFavorites, library) => new Promise((r
     })
 })
 
-const importDeck = (token, deckId) => new Promise((resolve, reject) => {
+const importDeckDok = (token, deckId) => new Promise((resolve, reject) => {
   fetch(
     'https://decksofkeyforge.com/api/decks/' + deckId + '/import-and-add', {
       credentials: 'include',
@@ -124,16 +150,63 @@ const importDeck = (token, deckId) => new Promise((resolve, reject) => {
   ).then((response) => console.log('Import ' + deckId, response))
 })
 
+const importDeckCrucible = (token, deckId) => new Promise((resolve, reject) => {
+  fetch("https://www.thecrucible.online/api/account/token", {
+      "credentials": "include",
+      "headers": {
+        "accept": "*/*",
+        "accept-language": "en-US,en;q=0.9,da;q=0.8",
+        "cache-control": "no-cache",
+        "content-type": "application/json",
+        "pragma": "no-cache",
+        "x-requested-with": "XMLHttpRequest"
+      },
+      "referrer": "https://www.thecrucible.online/decks/import",
+      "referrerPolicy": "no-referrer-when-downgrade",
+      "body": JSON.stringify({
+        'token': JSON.parse(token)
+      }),
+      "method": "POST",
+      "mode": "cors"
+    })
+    .then((response) => response.json())
+    .then((response) => {
+      fetch("https://www.thecrucible.online/api/decks/", {
+        "credentials": "include",
+        "headers": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9,da;q=0.8",
+          "authorization": "Bearer " + response.token,
+          "cache-control": "no-cache",
+          "content-type": "application/json",
+          "pragma": "no-cache",
+          "x-requested-with": "XMLHttpRequest",
+        },
+        "referrer": "https://www.thecrucible.online/decks/import",
+        "referrerPolicy": "no-referrer-when-downgrade",
+        "body": JSON.stringify({
+          "uuid": deckId
+        }),
+        "method": "POST",
+      }).then((response) => console.log('Import ' + deckId, response))
+    })
 
-chrome.tabs.getSelected(null, function (tab) {
+})
+
+chrome.tabs.getSelected(null, (tab) => {
   tabUrl = tab.url;
-  console.log(tabUrl)
   if (tabUrl.includes('www.keyforgegame.com')) {
     masterVaultSection.classList.remove('display-none')
     dokSection.classList.add('display-none')
+    crucibleSection.classList.add('display-none')
   } else if (tabUrl.includes('decksofkeyforge.com')) {
     dokSection.classList.remove('display-none')
     masterVaultSection.classList.add('display-none')
+    crucibleSection.classList.add('display-none')
+  } else if (tabUrl.includes('www.thecrucible.online')) {
+    crucibleSection.classList.remove('display-none')
+    masterVaultSection.classList.add('display-none')
+    dokSection.classList.add('display-none')
   }
 })
 
@@ -163,11 +236,28 @@ syncDokBtn.onclick = (el) => {
     }, (tabs) =>
     chrome.tabs.executeScript(
       tabs[0].id, {
-        code: `localStorage["AUTH"];`
+        code: 'localStorage["AUTH"];'
       },
       (response) => {
         token = response[0]
         handleDokToken(token)
+      }
+    ))
+}
+
+syncCrucibleBtn.onclick = (el) => {
+  spinner.classList.remove('display-none')
+  chrome.tabs.query({
+      active: true,
+      currentWindow: true
+    }, (tabs) =>
+    chrome.tabs.executeScript(
+      tabs[0].id, {
+        code: 'localStorage["refreshToken"];'
+      },
+      (response) => {
+        token = response[0]
+        handleCrucibleToken(token)
       }
     ))
 }

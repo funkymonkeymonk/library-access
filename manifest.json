@@ -8,7 +8,8 @@
         "declarativeContent",
         "storage",
         "https://www.keyforgegame.com/",
-        "https://decksofkeyforge.com/"
+        "https://decksofkeyforge.com/",
+        "https://www.thecrucible.online/"
     ],
     "background": {
         "scripts": [
@@ -18,5 +19,8 @@
     },
     "page_action": {
         "default_popup": "popup.html"
+    },
+    "icons": {
+        "100": "icon.png"
     }
 }
