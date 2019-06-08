@@ -4,13 +4,18 @@
     <link rel="stylesheet" type="text/css" href="popup.css" />
   </head>
   <body>
-    <button id="access-master-vault">Access Master Vault</button>
-    <input type="checkbox" id="only-favorites"> Only favorites
-    <hr>
-    <button id="sync-dok">Sync Decks of KeyForge</button>
-    <div id="spinner" class="loader display-none">Loading...</div>
-    <p id="library-access"></p>
-    <p id="dok-sync"></p>
+    <div id="master-vault-section" class="display-none">
+      <button id="access-master-vault">Access Master Vault</button>
+      <input type="checkbox" id="only-favorites"> Only favorites
+    </div>
+    <div id="dok-section" class="display-none">
+      <button id="sync-dok">Sync Decks of KeyForge</button>
+      <p id="dok-status"></p>
+    </div>
+    <div id="info-section">
+      <div id="spinner" class="loader display-none">Loading...</div>
+      <p id="library-status"></p>
+    </div>
   </body>
   <script src="popup.js"></script>
 </html>

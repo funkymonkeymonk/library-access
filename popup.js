@@ -1,8 +1,10 @@
+let masterVaultSection = document.getElementById('master-vault-section')
 let libraryAccessBtn = document.getElementById('access-master-vault')
 let libraryOnlyFavorites = document.getElementById('only-favorites')
+let libraryText = document.getElementById('library-status')
+let dokSection = document.getElementById('dok-section')
 let syncDokBtn = document.getElementById('sync-dok')
-let libraryText = document.getElementById('library-access')
-let dokText = document.getElementById('dok-sync')
+let dokText = document.getElementById('dok-status')
 let spinner = document.getElementById('spinner')
 
 const handleMasterVaultToken = (cookie) => {
@@ -52,7 +54,7 @@ const handleDokToken = (token) => loadLibrary().then((library) => {
       importDeck(token, deckId)
     })
 
-    alert('Synced decks')
+    dokText.innerHTML = "Synced " + library.length + " decks"
     spinner.classList.add('display-none')
   }
 })
@@ -120,6 +122,19 @@ const importDeck = (token, deckId) => new Promise((resolve, reject) => {
       method: 'POST'
     }
   ).then((response) => console.log('Import ' + deckId, response))
+})
+
+
+chrome.tabs.getSelected(null, function (tab) {
+  tabUrl = tab.url;
+  console.log(tabUrl)
+  if (tabUrl.includes('www.keyforgegame.com')) {
+    masterVaultSection.classList.remove('display-none')
+    dokSection.classList.add('display-none')
+  } else if (tabUrl.includes('decksofkeyforge.com')) {
+    dokSection.classList.remove('display-none')
+    masterVaultSection.classList.add('display-none')
+  }
 })
 
 loadLibrary().then((library) => {
