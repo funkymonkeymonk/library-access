@@ -6,6 +6,12 @@ let dokText = document.getElementById('dok-sync')
 let spinner = document.getElementById('spinner')
 
 const handleMasterVaultToken = (cookie) => {
+  if (!cookie) {
+    alert('You must login to Master Vault first')
+    spinner.classList.add('display-none')
+    return
+  }
+
   let token = cookie.value
   let onlyFavorites = libraryOnlyFavorites.checked ? 1 : 0
 
@@ -29,17 +35,25 @@ const handleMasterVaultToken = (cookie) => {
 }
 
 const handleDokToken = (token) => loadLibrary().then((library) => {
+  if (!token) {
+    alert('You must login to Decks of KeyForge first')
+    spinner.classList.add('display-none')
+    return
+  }
+
   if (!library || library.length == 0) {
     alert(
       'No decks accessed from Master Vault. Click "Access Master Vault" first.'
     )
+    spinner.classList.add('display-none')
+    return
   } else {
     library.forEach(deckId => {
       importDeck(token, deckId)
     })
 
-    spinner.classList.add('display-none')
     alert('Synced decks')
+    spinner.classList.add('display-none')
   }
 })
 
