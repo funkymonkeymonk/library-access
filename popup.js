@@ -151,46 +151,24 @@ const importDeckDok = (token, deckId) => new Promise((resolve, reject) => {
 })
 
 const importDeckCrucible = (token, deckId) => new Promise((resolve, reject) => {
-  fetch("https://www.thecrucible.online/api/account/token", {
-      "credentials": "include",
-      "headers": {
-        "accept": "*/*",
-        "accept-language": "en-US,en;q=0.9,da;q=0.8",
-        "cache-control": "no-cache",
-        "content-type": "application/json",
-        "pragma": "no-cache",
-        "x-requested-with": "XMLHttpRequest"
-      },
-      "referrer": "https://www.thecrucible.online/decks/import",
-      "referrerPolicy": "no-referrer-when-downgrade",
-      "body": JSON.stringify({
-        'token': JSON.parse(token)
-      }),
-      "method": "POST",
-      "mode": "cors"
-    })
-    .then((response) => response.json())
-    .then((response) => {
-      fetch("https://www.thecrucible.online/api/decks/", {
-        "credentials": "include",
-        "headers": {
-          "accept": "*/*",
-          "accept-language": "en-US,en;q=0.9,da;q=0.8",
-          "authorization": "Bearer " + response.token,
-          "cache-control": "no-cache",
-          "content-type": "application/json",
-          "pragma": "no-cache",
-          "x-requested-with": "XMLHttpRequest",
-        },
-        "referrer": "https://www.thecrucible.online/decks/import",
-        "referrerPolicy": "no-referrer-when-downgrade",
-        "body": JSON.stringify({
-          "uuid": deckId
-        }),
-        "method": "POST",
-      }).then((response) => console.log('Import ' + deckId, response))
-    })
-
+  fetch("https://www.thecrucible.online/api/decks/", {
+    "credentials": "include",
+    "headers": {
+      "accept": "*/*",
+      "accept-language": "en-US,en;q=0.9,da;q=0.8",
+      "authorization": "Bearer " + token,
+      "cache-control": "no-cache",
+      "content-type": "application/json",
+      "pragma": "no-cache",
+      "x-requested-with": "XMLHttpRequest",
+    },
+    "referrer": "https://www.thecrucible.online/decks/import",
+    "referrerPolicy": "no-referrer-when-downgrade",
+    "body": JSON.stringify({
+      "uuid": deckId
+    }),
+    "method": "POST",
+  }).then((response) => console.log('Import ' + deckId, response))
 })
 
 chrome.tabs.getSelected(null, (tab) => {
@@ -257,7 +235,28 @@ syncCrucibleBtn.onclick = (el) => {
       },
       (response) => {
         token = response[0]
-        handleCrucibleToken(token)
+        fetch("https://www.thecrucible.online/api/account/token", {
+            "credentials": "include",
+            "headers": {
+              "accept": "*/*",
+              "accept-language": "en-US,en;q=0.9,da;q=0.8",
+              "cache-control": "no-cache",
+              "content-type": "application/json",
+              "pragma": "no-cache",
+              "x-requested-with": "XMLHttpRequest"
+            },
+            "referrer": "https://www.thecrucible.online/decks/import",
+            "referrerPolicy": "no-referrer-when-downgrade",
+            "body": JSON.stringify({
+              'token': JSON.parse(token)
+            }),
+            "method": "POST",
+            "mode": "cors"
+          })
+          .then((response) => response.json())
+          .then((response) => {
+            handleCrucibleToken(response.token)
+          })
       }
     ))
 }
