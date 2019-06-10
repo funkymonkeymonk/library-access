@@ -71,12 +71,14 @@ const handleDokSync = (token) => loadLibrary().then((library) => {
   }
 })
 
-const handleCrucibleSync = (token) => loadLibrary().then((library) => {
-  if (!token) {
+const handleCrucibleSync = (user) => loadLibrary().then((library) => {
+  if (!user) {
     alert('You must login to The Crucible Online first')
     spinner.classList.add('display-none')
     return
   }
+
+  user = JSON.parse(user)
 
   if (!library || library.length == 0) {
     alert(
@@ -85,12 +87,43 @@ const handleCrucibleSync = (token) => loadLibrary().then((library) => {
     spinner.classList.add('display-none')
     return
   } else {
-    library.forEach(deckId => {
-      importDeckCrucible(token, deckId)
-    })
+    fetch("https://www.thecrucible.online/api/account/token", {
+        "credentials": "include",
+        "headers": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9,da;q=0.8",
+          "cache-control": "no-cache",
+          "content-type": "application/json",
+          "pragma": "no-cache",
+          "x-requested-with": "XMLHttpRequest"
+        },
+        "referrer": "https://www.thecrucible.online/decks",
+        "referrerPolicy": "no-referrer-when-downgrade",
+        "body": JSON.stringify({
+          'token': user
+        }),
+        "method": "POST",
+        "mode": "cors"
+      })
+      .then((response) => response.json())
+      .then((response) => {
+        let token = response.token
+        getCrucibleLibrary(token, user).then((crucibleLibrary) => {
+          crucibleLibraryMin = []
+          crucibleLibrary.forEach(deck => {
+            crucibleLibraryMin.push(deck.uuid)
+          })
 
-    crucibleText.innerHTML = "Synced " + library.length + " decks"
-    spinner.classList.add('display-none')
+          library.forEach(deckId => {
+            if (!crucibleLibraryMin.includes(deckId)) {
+              importDeckCrucible(token, deckId)
+
+              crucibleText.innerHTML = "Synced " + library.length + " decks"
+              spinner.classList.add('display-none')
+            }
+          })
+        })
+      })
   }
 })
 
@@ -223,6 +256,24 @@ const getDokLibrary = (token, user, page, library) => new Promise((resolve, reje
     })
 })
 
+const getCrucibleLibrary = (token, user, page, library) => new Promise((resolve, reject) => {
+  fetch("https://www.thecrucible.online/api/decks?_=" + user.id, {
+      "credentials": "include",
+      "headers": {
+        "accept": "*/*",
+        "accept-language": "en-US,en;q=0.9,da;q=0.8",
+        "authorization": "Bearer " + token,
+        "cache-control": "no-cache",
+        "content-type": "application/json",
+        "pragma": "no-cache",
+        "x-requested-with": "XMLHttpRequest"
+      },
+      "method": "GET",
+    })
+    .then((response) => response.json())
+    .then((response) => resolve(response.decks))
+})
+
 const importDeckDok = (token, deckId) => new Promise((resolve, reject) => {
   fetch(
     'https://decksofkeyforge.com/api/decks/' + deckId + '/import-and-add', {
@@ -322,29 +373,7 @@ syncCrucibleBtn.onclick = (el) => {
         code: 'localStorage["refreshToken"];'
       },
       (response) => {
-        token = response[0]
-        fetch("https://www.thecrucible.online/api/account/token", {
-            "credentials": "include",
-            "headers": {
-              "accept": "*/*",
-              "accept-language": "en-US,en;q=0.9,da;q=0.8",
-              "cache-control": "no-cache",
-              "content-type": "application/json",
-              "pragma": "no-cache",
-              "x-requested-with": "XMLHttpRequest"
-            },
-            "referrer": "https://www.thecrucible.online/decks/import",
-            "referrerPolicy": "no-referrer-when-downgrade",
-            "body": JSON.stringify({
-              'token': JSON.parse(token)
-            }),
-            "method": "POST",
-            "mode": "cors"
-          })
-          .then((response) => response.json())
-          .then((response) => {
-            handleCrucibleSync(response.token)
-          })
+        handleCrucibleSync(response[0])
       }
     ))
 }
