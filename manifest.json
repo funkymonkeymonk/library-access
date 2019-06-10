@@ -1,0 +1,26 @@
+{
+    "manifest_version": 2,
+    "name": "Library Access",
+    "version": "0.1",
+    "permissions": [
+        "activeTab",
+        "cookies",
+        "declarativeContent",
+        "storage",
+        "https://www.keyforgegame.com/",
+        "https://decksofkeyforge.com/",
+        "https://www.thecrucible.online/"
+    ],
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "persistent": false
+    },
+    "page_action": {
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "100": "icon.png"
+    }
+}
