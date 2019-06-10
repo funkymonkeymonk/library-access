@@ -10,7 +10,7 @@ let syncCrucibleBtn = document.getElementById('sync-crucible')
 let crucibleText = document.getElementById('crucible-status')
 let spinner = document.getElementById('spinner')
 
-const handleMasterVaultToken = (cookie) => {
+const handleMasterVaultSync = (cookie) => {
   if (!cookie) {
     alert('You must login to Master Vault first')
     spinner.classList.add('display-none')
@@ -39,7 +39,7 @@ const handleMasterVaultToken = (cookie) => {
   }))
 }
 
-const handleDokToken = (token) => loadLibrary().then((library) => {
+const handleDokSync = (token) => loadLibrary().then((library) => {
   if (!token) {
     alert('You must login to Decks of KeyForge first')
     spinner.classList.add('display-none')
@@ -71,7 +71,7 @@ const handleDokToken = (token) => loadLibrary().then((library) => {
   }
 })
 
-const handleCrucibleToken = (token) => loadLibrary().then((library) => {
+const handleCrucibleSync = (token) => loadLibrary().then((library) => {
   if (!token) {
     alert('You must login to The Crucible Online first')
     spinner.classList.add('display-none')
@@ -290,7 +290,7 @@ libraryAccessBtn.onclick = (el) => {
       url: 'https://www.keyforgegame.com/',
       name: 'auth'
     },
-    handleMasterVaultToken
+    handleMasterVaultSync
   )
 }
 
@@ -306,7 +306,7 @@ syncDokBtn.onclick = (el) => {
       },
       (response) => {
         token = response[0]
-        handleDokToken(token)
+        handleDokSync(token)
       }
     ))
 }
@@ -343,7 +343,7 @@ syncCrucibleBtn.onclick = (el) => {
           })
           .then((response) => response.json())
           .then((response) => {
-            handleCrucibleToken(response.token)
+            handleCrucibleSync(response.token)
           })
       }
     ))
