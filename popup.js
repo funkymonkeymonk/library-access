@@ -59,13 +59,15 @@ const handleDokSync = (token) => loadLibrary().then((library) => {
         dokLibraryMin.push(deck.keyforgeId)
       })
 
+      let imported = 0
       library.forEach(deckId => {
         if (!dokLibraryMin.includes(deckId)) {
           importDeckDok(token, deckId)
+          imported = imported + 1
         }
       })
 
-      dokText.innerHTML = "Synced " + library.length + " decks"
+      dokText.innerHTML = "Synced " + imported + " decks"
       spinner.classList.add('display-none')
     })
   }
@@ -114,14 +116,16 @@ const handleCrucibleSync = (user) => loadLibrary().then((library) => {
             crucibleLibraryMin.push(deck.uuid)
           })
 
+          let imported = 0
           library.forEach(deckId => {
             if (!crucibleLibraryMin.includes(deckId)) {
               importDeckCrucible(token, deckId)
-
-              crucibleText.innerHTML = "Synced " + library.length + " decks"
-              spinner.classList.add('display-none')
+              imported = imported + 1
             }
           })
+
+          crucibleText.innerHTML = "Synced " + imported + " decks"
+          spinner.classList.add('display-none')
         })
       })
   }
