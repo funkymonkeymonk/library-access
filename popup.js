@@ -20,7 +20,7 @@ const handleMasterVaultToken = (cookie) => {
   let token = cookie.value
   let onlyFavorites = libraryOnlyFavorites.checked ? 1 : 0
 
-  getUser(token).then((user) => getLibrary(token, user, 1, onlyFavorites, []).then((library) => {
+  getMasterVaultUser(token).then((user) => getMasterVaultLibrary(token, user, 1, onlyFavorites, []).then((library) => {
     let libraryMin = []
     library.forEach(deck => {
       libraryMin.push(deck.id)
@@ -53,12 +53,21 @@ const handleDokToken = (token) => loadLibrary().then((library) => {
     spinner.classList.add('display-none')
     return
   } else {
-    library.forEach(deckId => {
-      importDeckDok(token, deckId)
-    })
+    getDokUser(token).then((user) => getDokLibrary(token, user, 0, [])).then((dokLibrary) => {
+      dokLibraryMin = []
+      dokLibrary.forEach(deck => {
+        dokLibraryMin.push(deck.keyforgeId)
+      })
 
-    dokText.innerHTML = "Synced " + library.length + " decks"
-    spinner.classList.add('display-none')
+      library.forEach(deckId => {
+        if (!dokLibraryMin.includes(deckId)) {
+          importDeckDok(token, deckId)
+        }
+      })
+
+      dokText.innerHTML = "Synced " + library.length + " decks"
+      spinner.classList.add('display-none')
+    })
   }
 })
 
@@ -85,7 +94,7 @@ const handleCrucibleToken = (token) => loadLibrary().then((library) => {
   }
 })
 
-const getUser = (token) => fetch('https://www.keyforgegame.com/api/users/self/', {
+const getMasterVaultUser = (token) => fetch('https://www.keyforgegame.com/api/users/self/', {
     credentials: 'include',
     headers: {
       accept: 'application/json',
@@ -97,11 +106,22 @@ const getUser = (token) => fetch('https://www.keyforgegame.com/api/users/self/',
   .then((response) => response.json())
   .then((user) => user.data)
 
+const getDokUser = (token) => fetch('https://decksofkeyforge.com/api/users/secured/your-user', {
+    credentials: 'include',
+    headers: {
+      accept: 'application/json',
+      'accept-language': 'en-us',
+      authorization: token,
+      'x-authorization': token
+    }
+  })
+  .then((response) => response.json())
+
 const loadLibrary = () => new Promise((resolve, reject) => {
   chrome.storage.sync.get(['library'], (result) => resolve(result.library))
 })
 
-const getLibrary = (token, user, page, onlyFavorites, library) => new Promise((resolve, reject) => {
+const getMasterVaultLibrary = (token, user, page, onlyFavorites, library) => new Promise((resolve, reject) => {
   fetch(
       'https://www.keyforgegame.com/api/users/' +
       user.id +
@@ -126,12 +146,80 @@ const getLibrary = (token, user, page, onlyFavorites, library) => new Promise((r
 
       if (library.length != response.count) {
         page = page + 1
-        getLibrary(token, user, page, onlyFavorites, library)
+        getMasterVaultLibrary(token, user, page, onlyFavorites, library)
           .then(resolve)
           .catch(reject)
       } else {
         resolve(library)
       }
+    })
+})
+
+const getDokLibrary = (token, user, page, library) => new Promise((resolve, reject) => {
+  let body = JSON.stringify({
+    "houses": [],
+    "page": page,
+    "constraints": [],
+    "expansions": [],
+    "pageSize": 20,
+    "title": "",
+    "sort": "SAS_RATING",
+    "forSale": false,
+    "notForSale": false,
+    "forTrade": false,
+    "forAuction": false,
+    "withOwners": false,
+    "completedAuctions": false,
+    "includeUnregistered": true,
+    "myFavorites": false,
+    "cards": [],
+    "sortDirection": "DESC",
+    "owner": user.username
+  })
+
+  fetch("https://decksofkeyforge.com/api/decks/filter", {
+      "credentials": "include",
+      "headers": {
+        "accept": "application/json, text/plain, */*",
+        "accept-language": "en-US,en;q=0.9,da;q=0.8",
+        "authorization": token,
+        "cache-control": "no-cache",
+        "content-type": "application/json;charset=UTF-8",
+        "pragma": "no-cache",
+        "timezone": "-240"
+      },
+      "body": body,
+      "method": "POST",
+    })
+    .then((response) => response.json())
+    .then((response) => {
+      library = library.concat(response.decks)
+
+      fetch("https://decksofkeyforge.com/api/decks/filter-count", {
+          "credentials": "include",
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "en-US,en;q=0.9,da;q=0.8",
+            "authorization": token,
+            "cache-control": "no-cache",
+            "content-type": "application/json;charset=UTF-8",
+            "pragma": "no-cache",
+            "timezone": "-240"
+          },
+          "body": body,
+          "method": "POST",
+          "mode": "cors"
+        }).then((response) => response.json())
+        .then((response) => {
+          if (library.length != response.count) {
+            page = page + 1
+            getDokLibrary(token, user, page, library)
+              .then(resolve)
+              .catch(reject)
+          } else {
+            resolve(library)
+          }
+        })
     })
 })
 
