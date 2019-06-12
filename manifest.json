@@ -1,7 +1,8 @@
 {
     "manifest_version": 2,
-    "name": "Library Access",
-    "version": "0.1",
+    "name": "Library Access: KeyForge Deck Sync Tool",
+    "short_name": "Library Access",
+    "version": "0.2",
     "permissions": [
         "activeTab",
         "cookies",
