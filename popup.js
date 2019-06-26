@@ -324,7 +324,7 @@ chrome.tabs.getSelected(null, (tab) => {
     dokSection.classList.remove('display-none')
     masterVaultSection.classList.add('display-none')
     crucibleSection.classList.add('display-none')
-  } else if (tabUrl.includes('www.thecrucible.online')) {
+  } else if (tabUrl.includes('www.thecrucible.online') || tabUrl.includes('thecrucible.online')) {
     crucibleSection.classList.remove('display-none')
     masterVaultSection.classList.add('display-none')
     dokSection.classList.add('display-none')
