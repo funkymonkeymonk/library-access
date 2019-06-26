@@ -14,6 +14,11 @@ chrome.runtime.onInstalled.addListener(() => chrome.declarativeContent.onPageCha
       pageUrl: {
         hostEquals: 'www.thecrucible.online'
       }
+    }),
+    new chrome.declarativeContent.PageStateMatcher({
+      pageUrl: {
+        hostEquals: 'thecrucible.online'
+      }
     })
   ],
   actions: [new chrome.declarativeContent.ShowPageAction()]
