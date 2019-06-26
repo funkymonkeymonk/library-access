@@ -278,7 +278,7 @@ const getCrucibleLibrary = (token, user, page, library) => new Promise((resolve,
     .then((response) => resolve(response.decks))
 })
 
-const importDeckDok = (token, deckId) => new Promise((resolve, reject) => {
+const importDeckDok = (token, deckId) => {
   fetch(
     'https://decksofkeyforge.com/api/decks/' + deckId + '/import-and-add', {
       credentials: 'include',
@@ -291,9 +291,9 @@ const importDeckDok = (token, deckId) => new Promise((resolve, reject) => {
       method: 'POST'
     }
   ).then((response) => console.log('Import ' + deckId, response))
-})
+}
 
-const importDeckCrucible = (token, deckId) => new Promise((resolve, reject) => {
+const importDeckCrucible = (token, deckId) => {
   fetch("https://www.thecrucible.online/api/decks/", {
     "credentials": "include",
     "headers": {
@@ -312,7 +312,7 @@ const importDeckCrucible = (token, deckId) => new Promise((resolve, reject) => {
     }),
     "method": "POST",
   }).then((response) => console.log('Import ' + deckId, response))
-})
+}
 
 chrome.tabs.getSelected(null, (tab) => {
   tabUrl = tab.url;
