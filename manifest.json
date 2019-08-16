@@ -12,6 +12,21 @@
         "https://www.thecrucible.online/",
         "https://thecrucible.online/"
     ],
+    "content_scripts": [{
+        "matches": [
+            "https://www.keyforgegame.com/*"
+        ],
+        "js": [
+            "arrive.min.js",
+            "enhanced-master-vault.js"
+        ],
+        "css": [
+            "pure-css-drawer-menu.css"
+        ]
+    }],
+    "web_accessible_resources": [
+        "dok-icon-16x16.png"
+    ],
     "background": {
         "scripts": [
             "background.js"
