@@ -26,16 +26,16 @@ const handleMasterVaultSync = (cookie) => {
       libraryMin.push(deck.id)
     })
 
-    chrome.storage.sync.set({
-        library: libraryMin
-      },
-      () => {
+    chrome.runtime.sendMessage({
+      popupQuery: 'saveLibrary',
+      library: libraryMin
+    }, () => {
         spinner.classList.add('display-none')
 
         libraryText.innerHTML =
           library.length + ' decks accessed from Master Vault'
-      }
-    )
+    })
+
   }))
 }
 
@@ -155,7 +155,11 @@ const getDokUser = (token) => fetch('https://decksofkeyforge.com/api/users/secur
   .then((response) => response.json())
 
 const loadLibrary = () => new Promise((resolve, reject) => {
-  chrome.storage.sync.get(['library'], (result) => resolve(result.library))
+  chrome.runtime.sendMessage({
+    popupQuery: 'fetchLibrary'
+  }, (library) => {
+    resolve(library)
+  })
 })
 
 const getMasterVaultLibrary = (token, user, page, onlyFavorites, library) => new Promise((resolve, reject) => {
