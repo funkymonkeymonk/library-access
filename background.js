@@ -1,3 +1,5 @@
+let library = []
+
 chrome.runtime.onInstalled.addListener(() => chrome.declarativeContent.onPageChanged.removeRules(undefined, () => chrome.declarativeContent.onPageChanged.addRules([{
   conditions: [
     new chrome.declarativeContent.PageStateMatcher({
@@ -23,3 +25,15 @@ chrome.runtime.onInstalled.addListener(() => chrome.declarativeContent.onPageCha
   ],
   actions: [new chrome.declarativeContent.ShowPageAction()]
 }])))
+
+chrome.runtime.onMessage.addListener(
+  (request, sender, sendResponse) => {
+    if (request.popupQuery == 'saveLibrary') {
+      library = request.library
+      sendResponse(true)
+    } else if(request.popupQuery == 'fetchLibrary') {
+      sendResponse(library)
+    }
+
+    return true
+  })
