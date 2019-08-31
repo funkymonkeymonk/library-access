@@ -21,7 +21,9 @@
             "enhanced-master-vault.js"
         ],
         "css": [
-            "pure-css-drawer-menu.css"
+            "pure-css-drawer-menu.css",
+            "ps-sans.css",
+            "jason-theme.css"
         ]
     }],
     "web_accessible_resources": [

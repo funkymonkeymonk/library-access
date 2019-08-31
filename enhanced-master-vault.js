@@ -8,6 +8,18 @@ const cleanupButtons = () => {
   })
 }
 
+
+const createAccessButton = (deckId) => {
+  let el = document.createElement('label')
+  el.setAttribute('for', 'menu-opener')
+  el.setAttribute('data-deck-id', deckId)
+  el.addEventListener('click', loadDokData)
+  el.classList.add('OpenMenuButton')
+  el.textContent = '[Access]'
+
+  return el
+}
+
 const modifyDeckList = () => {
   let decks = document.querySelectorAll('div.deck-list__deck-name > a')
 
@@ -16,14 +28,7 @@ const modifyDeckList = () => {
   // inject "[Access]" buttons
   decks.forEach(el => {
     let deckId = el.getAttribute('href').split('/')[2]
-
-    let accessMenuBtn = document.createElement('label')
-    accessMenuBtn.setAttribute('for', 'menu-opener')
-    accessMenuBtn.setAttribute('data-deck-id', deckId)
-    accessMenuBtn.addEventListener('click', loadDokData)
-    accessMenuBtn.classList.add('OpenMenuButton')
-    accessMenuBtn.textContent = '[Access]'
-
+    let accessMenuBtn = createAccessButton(deckId)
     el.parentElement.parentElement.insertBefore(accessMenuBtn, el.nextSibling)
   })
 }
@@ -50,13 +55,7 @@ const deckPageLoad = () => {
 
   // inject "[Access]" button
   let deckId = document.location.href.split('/').pop()
-
-  let accessMenuBtn = document.createElement('label')
-  accessMenuBtn.setAttribute('for', 'menu-opener')
-  accessMenuBtn.setAttribute('data-deck-id', deckId)
-  accessMenuBtn.addEventListener('click', loadDokData)
-  accessMenuBtn.classList.add('OpenMenuButton')
-  accessMenuBtn.textContent = '[Access]'
+  let accessMenuBtn = createAccessButton(deckId)
 
   deck.appendChild(accessMenuBtn)
 }
@@ -73,9 +72,9 @@ const loadDokData = (event) => {
 
   // CORB requires us to make requests from the background page
   chrome.runtime.sendMessage({
-    contentScriptQuery: 'loadDokData',
-    deckId: deckId
-  },
+      contentScriptQuery: 'loadDokData',
+      deckId: deckId
+    },
     deck => {
       // handle bad response
       if (!deck || Object.keys(deck).length === 0) {
@@ -85,39 +84,90 @@ const loadDokData = (event) => {
       }
 
       let deckBody = document.createRange().createContextualFragment(`
-        <a href="https://decksofkeyforge.com/decks/${deck.keyforgeId}">
-          <h2>
-            ${deck.name}
-            <img src="${chrome.extension.getURL('dok-icon-16x16.png')}"><br>
-            ${deck.forSale ? '[For Sale]' : ''}${deck.forTrade ? '[For Trade]' : ''}${deck.forAuction ? '[For Auction]' : ''}
-          </h2>
-        </a>
-        <h3>${Number(deck.sasRating)} SAS</h4>
-        <br>
-        <p>${Number(deck.cardsRating)} Card Rating</p>
-        <p>${Number(deck.synergyRating)} Synergy</p>
-        <p>${Number(deck.antisynergyRating)} AntiSynergy</p>
-        <hr>
-        <h3>${Number(deck.aercScore)} AERC</h4>
-        <br>
-        <p>${Number(deck.amberControl)} Aember Control</p>
-        <p>${Number(deck.expectedAmber)} Expected Aember</p>
-        <p>${Number(deck.artifactControl)} Artifact Control</p>
-        <p>${Number(deck.creatureControl)} Creature Control</p>
-        <p>${Number(deck.deckManipulation)} Deck Manipulation</p>
-        <p>${Number(deck.effectivePower) / 10} Creature Power</p>
-        <!--
-        <hr>
-        <p>${Number(deck.rawAmber)} Bonus Aember</p>
-        <p>${Number(deck.keyCheatCount)} Key Cheat</p>
-        <p>${Number(deck.cardDrawCount)} Card Draw</p>
-        <p>${Number(deck.cardArchiveCount)} Archive</p>
-        -->
-        <hr>
-        <p>${Number(deck.creatureCount)} Creatures</p>
-        <p>${Number(deck.actionCount)} Actions</p>
-        <p>${Number(deck.upgradeCount)} Upgrades</p>
-        <p>${Number(deck.artifactCount)} Artifacts</p>
+        <h2>
+          <a href="https://decksofkeyforge.com/decks/${deck.keyforgeId}"> ${deck.name}
+              <br>
+              ${deck.forSale ? '[For Sale]' : ''}${deck.forTrade ? '[For Trade]' : ''}${deck.forAuction ? '[For Auction]' : ''}
+          </a>
+        </h2>
+
+        <section class="section-scores">
+          <div class="scores-bar">
+              <div style="width: ${Number(deck.sasRating) >= 100 ? 100 : Number(deck.sasRating)}%"></div>
+          </div>
+          <h3>
+              <div class="section-score">${Number(deck.sasRating)}</div> SAS
+          </h3>
+          <table class="table-scores">
+            <tr>
+              <td class="score">${Number(deck.cardsRating)}</td>
+              <td>Card Rating</td>
+            </tr>
+            <tr>
+              <td class="score">${Number(deck.synergyRating)}</td>
+              <td>Synergy</td>
+            </tr>
+            <tr>
+              <td class="score">${Number(deck.antisynergyRating)}</td>
+              <td>AntiSynergy</td>
+            </tr>
+          </table>
+        </section>
+
+        <section class="section-scores">
+          <div class="scores-bar">
+              <div style="width: ${Number(deck.aercScore) >= 100 ? 100 : Number(deck.aercScore)}%"></div>
+          </div>
+          <h3>
+              <div class="section-score">${Number(deck.aercScore)}</div> AERC
+          </h3>
+          <table class="table-scores">
+            <tr>
+              <td class="score">${Number(deck.amberControl)}</td>
+              <td>Aember Control</td>
+            </tr>
+            <tr>
+              <td class="score">${Number(deck.expectedAmber)}</td>
+              <td>Expected Aember</td>
+            </tr>
+            <tr>
+              <td class="score">${Number(deck.artifactControl)}</td>
+              <td>Artifact Control</td>
+            </tr>
+              <tr>
+              <td class="score">${Number(deck.creatureControl)}</td>
+              <td>Creature Control</td>
+            </tr>
+            <tr>
+              <td class="score">${Number(deck.deckManipulation)}</td>
+              <td>Deck Manipulation</td>
+            </tr>
+            <tr>
+              <td class="score">${Number(deck.effectivePower) / 10}</td>
+              <td>Creature Power</td>
+            </tr>
+
+            <tr>
+              <td colspan="2"><hr></td>
+            </tr>
+            <tr>
+              <td class="score">${Number(deck.creatureCount)}</td>
+              <td>Creatures</td>
+            </tr>
+            <tr>
+              <td class="score">${Number(deck.actionCount)}</td>
+              <td>Actions</td>
+            </tr>
+              <tr>
+              <td class="score">${Number(deck.upgradeCount)}</td>
+              <td>Upgrades</td>
+            </tr>
+            <tr>
+              <td class="score">${Number(deck.artifactCount)}</td>
+              <td>Artifacts</td>
+            </tr>
+          </table>
+        </section>
       `)
 
       deckContainer.appendChild(deckBody)
