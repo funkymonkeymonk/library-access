@@ -198,6 +198,11 @@ let menu = document.createRange().createContextualFragment(`
 <aside class="DrawerMenu">
   <nav class="Menu">
     <div id="deck-container"></div>
+    <span class="dok-credit">
+      <a href="https://decksofkeyforge.com">
+        <img class="dok-icon" src="${chrome.extension.getURL('img/dok-apple-touch-icon.png')}">
+      </a>
+    </span>
   </nav>
   <label for="menu-opener" class="MenuOverlay"></label>
 </aside>

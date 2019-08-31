@@ -1,7 +1,7 @@
 .OpenMenuButton {
     -moz-box-shadow: 0px 0px 0px 0px #ffffff;
     -webkit-box-shadow: 0px 0px 0px 0px #ffffff;
-    box-shadow: 0px 0px 0px 0px #ffffff;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     background-color: #008eb9;
     cursor: pointer;
     color: #ffffff;
@@ -75,4 +75,12 @@
 .Menu hr {
     border: 0;
     border-top: 1px solid rgba(0, 0, 0, .1);
+}
+
+.dok-credit {
+    float: right;
+}
+
+.dok-icon {
+    width: 5em;
 }
