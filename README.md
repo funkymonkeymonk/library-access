@@ -21,6 +21,10 @@ Toggle Developer Mode on
 
 Click "Load unpacked"
 
+## Acknowledgements
+
+This extension is using code adapted from [this CodePen by Mattia Astorino](https://codepen.io/equinusocio/pen/wPvvmv), under [this license](pure-css-drawer-menu.license.txt).
+
 ### Disclaimer
 
 This code is provided "as is" and should not be considered fit for any purpose. Use at your own risk. Using this code may result in the loss of data, closure of accounts, bans, or otherwise have undesired effects.
