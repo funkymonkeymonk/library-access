@@ -1,135 +1,47 @@
 body {
-	width: 220px;
-	font-family: 'PT Sans', sans-serif;
-	background-color: #008eb9;
-	font-size: 12px;
+    padding: 5px;
+    background-color: #008eb9;
+    font-family: 'PT Sans', sans-serif;
 }
 
 .display-none {
 	display: none;
 }
 
-.title {
+.launch {
+    text-align: center;
+}
+
+.button {
+    white-space: nowrap;
+    cursor: pointer;
+    border: 1px solid #fff;
+    border-color: #fac5ad #004c63 #004c63 #fac5ad;
+    width: 100%;
+    height: 10px;
+    margin: 0;
+    padding: .5em 1em;
+    background-color: #f0571e;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+input {
     position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-    margin: 3px 0 4px;
-    padding: 2px 2px 0;
+    top: 1px;
 }
 
-.section {
-    position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-    margin: 3px 0 4px;
-    padding: 2px 2px 0;
-    background-color: #f0ede2;
+p {
+    line-height: .8em;
+    font-size: 13px;
+    color: rgba(255,255,255,.6);
 }
 
-a {
-  color: #fff;
-  text-decoration: none;
-}
-
-hr {
-    border: 0;
-    border-top: 1px solid rgba(0, 0, 0, .1);
-}
-
-#info-section {
-	margin-top: auto;
-}
-
-button {
-	-moz-box-shadow: 0px 0px 0px 0px #ffffff;
-	-webkit-box-shadow: 0px 0px 0px 0px #ffffff;
-	box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-	background-color: #008eb9;
-	cursor: pointer;
-	color: #ffffff;
-	padding: 8px 13px;
-	text-decoration: none;
-}
-
-/* button:hover {
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #0061a7), color-stop(1, #007dc1));
-	background: -webkit-linear-gradient(top, #0061a7 5%, #007dc1 100%);
-	background: linear-gradient(to bottom, #0061a7 5%, #007dc1 100%);
-	background-color: #0061a7;
-}
-
-button:active {
-	position: relative;
-	top: 1px;
-} */
-
-/* Curtesy of: https://projects.lukehaas.me/css-loaders/ */
-.loader,
-.loader:before,
-.loader:after {
-	border-radius: 50%;
-	width: 1.5em;
-	height: 1.5em;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
-	-webkit-animation: load7 1.8s infinite ease-in-out;
-	animation: load7 1.8s infinite ease-in-out;
-}
-
-.loader {
-	color: #f0571e;
-	font-size: 10px;
-	margin: 0px 50px 40px;
-	position: relative;
-	text-indent: -9999em;
-	-webkit-transform: translateZ(0);
-	-ms-transform: translateZ(0);
-	transform: translateZ(0);
-	-webkit-animation-delay: -0.16s;
-	animation-delay: -0.16s;
-}
-
-.loader:before,
-.loader:after {
-	content: '';
-	position: absolute;
-	top: 0;
-}
-
-.loader:before {
-	left: -3.5em;
-	-webkit-animation-delay: -0.32s;
-	animation-delay: -0.32s;
-}
-
-.loader:after {
-	left: 3.5em;
-}
-
-@-webkit-keyframes load7 {
-
-	0%,
-	80%,
-	100% {
-		box-shadow: 0 2.5em 0 -1.3em;
-	}
-
-	40% {
-		box-shadow: 0 2.5em 0 0;
-	}
-}
-
-@keyframes load7 {
-
-	0%,
-	80%,
-	100% {
-		box-shadow: 0 2.5em 0 -1.3em;
-	}
-
-	40% {
-		box-shadow: 0 2.5em 0 0;
-	}
+h1 {
+    text-align: center;
+    margin: 0 0 1em;
+    color: #004c63;
+    text-decoration: none;
+    font-size: 1em;
 }

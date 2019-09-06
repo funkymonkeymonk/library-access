@@ -1,38 +1,3 @@
-.OpenMenuButton {
-  font-family: 'PT Sans', sans-serif;
-  cursor: pointer;
-  font-size: 1.5rem;
-  font-weight: 900;
-  word-spacing: 140%;
-  letter-spacing: 4px;
-  margin-top: 2%;
-  display: inline-block;
-}
-
-.deck-details__deck>.OpenMenuButton {
-  margin-top: 5%;
-  font-size: 2.5rem;
-}
-
-@media screen and (min-width: 375px) {
-  .OpenMenuButton {
-    font-size: 1.8rem;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .OpenMenuButton {
-    font-size: 1.2rem;
-  }
-}
-
-@media screen and (min-width: 1366px) {
-  .OpenMenuButton {
-    font-size: 1.5rem;
-    margin-top: 5%;
-  }
-}
-
 .DrawerMenu {
   position: fixed;
   z-index: 99;

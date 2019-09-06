@@ -15,7 +15,7 @@ const createAccessButton = (deckId) => {
   el.setAttribute('data-deck-id', deckId)
   el.addEventListener('click', loadDokData)
   el.classList.add('OpenMenuButton')
-  el.textContent = '[Access]'
+  el.textContent = 'Access'
 
   return el
 }

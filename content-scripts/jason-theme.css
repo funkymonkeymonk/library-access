@@ -1,22 +1,20 @@
 .OpenMenuButton {
-    -moz-box-shadow: 0px 0px 0px 0px #ffffff;
-    -webkit-box-shadow: 0px 0px 0px 0px #ffffff;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-    background-color: #008eb9;
+    font-family: 'PT Sans', sans-serif;
+    box-sizing: content-box;
+    white-space: nowrap;
     cursor: pointer;
-    color: #ffffff;
-    padding: 8px 13px;
-    text-decoration: none;
+    border: 1px solid #fff;
+    border-color: #fac5ad #004c63 #004c63 #fac5ad;
+    height: 6px;
+    margin: 0;
+    padding: .3em .3em .9em;
+    background-color: #f0571e;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1em;
     width: max-content;
-}
-
-.OpenMenuButton:hover {
-    background-color: #004c63;
-}
-
-.OpenMenuButton:active {
-    position: relative;
-    top: 1px;
+    line-height: 1;
+    margin-top: .5em;
 }
 
 .Menu h3 {

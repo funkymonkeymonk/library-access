@@ -1,47 +1,40 @@
-<!DOCTYPE html>
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="popup.css" />
+    <link rel="stylesheet" type="text/css" href="loading.css" />
     <link rel="stylesheet" type="text/css" href="../vendor/ps-sans.css" />
   </head>
   <body>
-    <div id="master-vault-section" class="display-none">
-      <section class="title">
-        <h2>
-          <a href="#" id="access-master-vault">Access Master Vault</a>
-        </h2>
-        <div>
+    <!-- Info-->
+    <div id="info-section">
+      <h1 id="library-status"></h1>
+    </div>
+
+    <!-- Master Vault -->
+    <aside id="master-vault-section" class="display-none">
+      <section class="launch">
+        <a id="access-master-vault" class="button">Access Master Vault</a>
+        <p>
           <input type="checkbox" id="only-favorites">
           <label for="only-favorites"> Only favorites</label>
-        </div>
+        </p>
       </section>
-    </div>
-    <div id="dok-section" class="display-none">
-      <section class="title">
-        <h2>
-          <a href="#" id="sync-dok">Sync Decks of KeyForge</a>
-        </h2>
+    </aside>
+
+    <!-- Decks of KeyForge -->
+    <aside id="dok-section" class="display-none">
+      <section class="launch">
+        <a id="sync-dok" class="button">Sync Decks of KeyForge</a>
       </section>
-      <section class="section">
-        <p id="dok-status">No decks synced yet</p>
+    </aside>
+
+    <!-- The Crucible Online -->
+    <aside id="crucible-section" class="display-none">
+      <section class="launch">
+        <a id="sync-crucible" class="button">Sync The Crucible Online</a>
       </section>
-    </div>
-    <div id="crucible-section" class="display-none">
-      <section class="title">
-        <h2>
-          <a href="#" id="sync-crucible">Sync The Crucible Online</a>
-        </h2>
-      </section>
-      <section class="section">
-        <p id="crucible-status">No decks synced yet</p>
-      </section>
-    </div>
-    <section class="section">
-      <div id="info-section">
-        <div id="spinner" class="loader display-none">Loading...</div>
-        <p id="library-status"></p>
-      </div>
-    </section>
+    </aside>
+
   </body>
   <script src="popup.js"></script>
 </html>
