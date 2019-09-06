@@ -1,6 +1,7 @@
 .OpenMenuButton {
     font-family: 'PT Sans', sans-serif;
     box-sizing: content-box;
+    display: block;
     white-space: nowrap;
     cursor: pointer;
     border: 1px solid #fff;
@@ -15,6 +16,11 @@
     width: max-content;
     line-height: 1;
     margin-top: .5em;
+}
+
+.deck-details__deck>.OpenMenuButton {
+  font-size: 1.5em;
+  margin-top: 1em;
 }
 
 .Menu h3 {
