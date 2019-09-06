@@ -25,6 +25,10 @@ Click "Load unpacked"
 
 Design provided by [Jason Merriman @ hyphen-ated](http://hyphen-ated.com/)
 
+[PT Sans from Google Fonts](https://fonts.google.com/specimen/PT+Sans)
+
+[Arrive.js from uzairfarooq](https://github.com/uzairfarooq/arrive)
+
 Using code adapted from [this CodePen by Mattia Astorino](https://codepen.io/equinusocio/pen/wPvvmv), under [this license](pure-css-drawer-menu.license.txt).
 
 Using code from [this CodePen by thetallweeks](https://codepen.io/thetallweeks)
