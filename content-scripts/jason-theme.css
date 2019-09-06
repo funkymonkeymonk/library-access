@@ -82,9 +82,14 @@
 }
 
 .dok-credit {
+    position: relative;
     float: right;
+    width: 20%;
+    height: 70%;
 }
 
 .dok-icon {
-    width: 5em;
+    width: 64px;
+    position: absolute;
+    bottom: 0;
 }
