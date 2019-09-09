@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="popup.css" />
+    <link rel="stylesheet" type="text/css" href="loading.css" />
+    <link rel="stylesheet" type="text/css" href="../vendor/ps-sans.css" />
+  </head>
+  <body>
+    <!-- Info-->
+    <div id="info-section">
+      <h1 id="library-status"></h1>
+    </div>
+
+    <!-- Master Vault -->
+    <aside id="master-vault-section" class="display-none">
+      <section class="launch">
+        <a id="access-master-vault" class="button">Access Master Vault</a>
+        <p>
+          <input type="checkbox" id="only-favorites">
+          <label for="only-favorites"> Only favorites</label>
+        </p>
+      </section>
+    </aside>
+
+    <!-- Decks of KeyForge -->
+    <aside id="dok-section" class="display-none">
+      <section class="launch">
+        <a id="sync-dok" class="button">Sync Decks of KeyForge</a>
+      </section>
+    </aside>
+
+    <!-- The Crucible Online -->
+    <aside id="crucible-section" class="display-none">
+      <section class="launch">
+        <a id="sync-crucible" class="button">Sync The Crucible Online</a>
+      </section>
+    </aside>
+
+  </body>
+  <script src="popup.js"></script>
+</html>

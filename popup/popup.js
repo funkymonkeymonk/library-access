@@ -4,16 +4,23 @@ let libraryOnlyFavorites = document.getElementById('only-favorites')
 let libraryText = document.getElementById('library-status')
 let dokSection = document.getElementById('dok-section')
 let syncDokBtn = document.getElementById('sync-dok')
-let dokText = document.getElementById('dok-status')
 let crucibleSection = document.getElementById('crucible-section')
 let syncCrucibleBtn = document.getElementById('sync-crucible')
-let crucibleText = document.getElementById('crucible-status')
-let spinner = document.getElementById('spinner')
+
+const loading = (isLoading) => {
+  if (isLoading) {
+    libraryText.innerHTML = 'Loading'
+    libraryText.classList.add('loading')
+  } else {
+    libraryText.innerHTML = 'Done'
+    libraryText.classList.remove('loading')
+  }
+}
 
 const handleMasterVaultSync = (cookie) => {
   if (!cookie) {
     alert('You must login to Master Vault first')
-    spinner.classList.add('display-none')
+    loading(false)
     return
   }
 
@@ -30,7 +37,7 @@ const handleMasterVaultSync = (cookie) => {
       popupQuery: 'saveLibrary',
       library: libraryMin
     }, () => {
-        spinner.classList.add('display-none')
+        loading(false)
 
         libraryText.innerHTML =
           library.length + ' decks accessed from Master Vault'
@@ -42,7 +49,7 @@ const handleMasterVaultSync = (cookie) => {
 const handleDokSync = (token) => loadLibrary().then((library) => {
   if (!token) {
     alert('You must login to Decks of KeyForge first')
-    spinner.classList.add('display-none')
+    loading(false)
     return
   }
 
@@ -50,7 +57,7 @@ const handleDokSync = (token) => loadLibrary().then((library) => {
     alert(
       'No decks accessed from Master Vault. Click "Access Master Vault" first.'
     )
-    spinner.classList.add('display-none')
+    loading(false)
     return
   } else {
     getDokUser(token).then((user) => getDokLibrary(token, user, 0, [])).then((dokLibrary) => {
@@ -67,8 +74,8 @@ const handleDokSync = (token) => loadLibrary().then((library) => {
         }
       })
 
-      dokText.innerHTML = "Synced " + imported + " decks"
-      spinner.classList.add('display-none')
+      loading(false)
+      libraryText.innerHTML = "Synced " + imported + " decks"
     })
   }
 })
@@ -76,7 +83,7 @@ const handleDokSync = (token) => loadLibrary().then((library) => {
 const handleCrucibleSync = (user) => loadLibrary().then((library) => {
   if (!user) {
     alert('You must login to The Crucible Online first')
-    spinner.classList.add('display-none')
+    loading(false)
     return
   }
 
@@ -86,7 +93,7 @@ const handleCrucibleSync = (user) => loadLibrary().then((library) => {
     alert(
       'No decks accessed from Master Vault. Click "Access Master Vault" first.'
     )
-    spinner.classList.add('display-none')
+    loading(false)
     return
   } else {
     fetch("https://www.thecrucible.online/api/account/token", {
@@ -124,8 +131,8 @@ const handleCrucibleSync = (user) => loadLibrary().then((library) => {
             }
           })
 
-          crucibleText.innerHTML = "Synced " + imported + " decks"
-          spinner.classList.add('display-none')
+          loading(false)
+          libraryText.innerHTML = "Synced " + imported + " decks"
         })
       })
   }
@@ -344,7 +351,7 @@ loadLibrary().then((library) => {
 })
 
 libraryAccessBtn.onclick = (el) => {
-  spinner.classList.remove('display-none')
+  loading(true)
   chrome.cookies.get({
       url: 'https://www.keyforgegame.com/',
       name: 'auth'
@@ -354,7 +361,7 @@ libraryAccessBtn.onclick = (el) => {
 }
 
 syncDokBtn.onclick = (el) => {
-  spinner.classList.remove('display-none')
+  loading(true)
   chrome.tabs.query({
       active: true,
       currentWindow: true
@@ -371,7 +378,7 @@ syncDokBtn.onclick = (el) => {
 }
 
 syncCrucibleBtn.onclick = (el) => {
-  spinner.classList.remove('display-none')
+  loading(true)
   chrome.tabs.query({
       active: true,
       currentWindow: true

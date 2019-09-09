@@ -21,6 +21,18 @@ Toggle Developer Mode on
 
 Click "Load unpacked"
 
+## Acknowledgements
+
+Design provided by [Jason Merriman @ hyphen-ated](http://hyphen-ated.com/)
+
+[PT Sans from Google Fonts](https://fonts.google.com/specimen/PT+Sans)
+
+[Arrive.js from uzairfarooq](https://github.com/uzairfarooq/arrive)
+
+Using code adapted from [this CodePen by Mattia Astorino](https://codepen.io/equinusocio/pen/wPvvmv), under [this license](pure-css-drawer-menu.license.txt).
+
+Using code from [this CodePen by thetallweeks](https://codepen.io/thetallweeks)
+
 ### Disclaimer
 
 This code is provided "as is" and should not be considered fit for any purpose. Use at your own risk. Using this code may result in the loss of data, closure of accounts, bans, or otherwise have undesired effects.
