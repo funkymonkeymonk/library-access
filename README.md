@@ -1,3 +1,7 @@
+# This is no longer being developed and has been archived.
+
+
+
 # Library Access
 
 Library Access is a chrome extension for syncing your KeyForge Master Vault deck list to 3rd party sites such as Crucible, Decks of KeyForge, KeyForge Compendium, et al.
